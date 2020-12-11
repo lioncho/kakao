@@ -8,12 +8,22 @@ import { KakaoCordovaSDK, AuthTypes } from 'kakao-sdk/ngx';
 export class AuthService {
 
   constructor(private _kakaoSDK: KakaoCordovaSDK,private router: Router) {
+
+//The access token will verify is the user has loggedin.
+//This checks if the token is present in the localstorage
+//Note: While implementing the logout, the token must be removed from the local storage too.
+  this.userToken = localStorage.getItem("kakoaToken");
+    if(this.userToken){
+      this.router.navigate(['/home']);
+    }else{
+      this.router.navigate(['/login']);
+    }
     
    }
 
    kokaoToken:any;
-
-
+   userToken:any;
+//Login method with the KakaoSDK
    login(){
      let loginOptions = {};
      loginOptions['authTypes'] = [
@@ -26,7 +36,7 @@ export class AuthService {
       
     this._kakaoSDK.login(loginOptions).then((res) => {
  
-    
+    //Accessign the token and storing it to the localstorage
     this._kakaoSDK.getAccessToken().then(res => {
       this.kokaoToken = res;
     })
@@ -37,14 +47,14 @@ export class AuthService {
    }
 
 
-
+   ///Method to check if the user is logged in or not.
    isLoggedIn(){
      
-    var userToken =  localStorage.getItem("kakoaToken").toString();
-    if(userToken){
+    this.userToken = localStorage.getItem("kakoaToken");
+    if(this.userToken){
       this.router.navigate(['/home']);
     }else{
-      this.router.navigate(['login']);
+      this.router.navigate(['/login']);
     }
    }
 

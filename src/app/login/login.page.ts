@@ -10,7 +10,6 @@ import { FormBuilder, Validators } from '@angular/forms';
 export class LoginPage implements OnInit {
 
   constructor(private fb: FormBuilder, private kakaoAuth: AuthService) {
-      this.kakaoAuth.isLoggedIn();
 
    }
 
@@ -31,12 +30,14 @@ export class LoginPage implements OnInit {
 
   login(){
     this.kakaoAuth.login();
-
+    // this.kakaoAuth.loginTest();
   }
+
+
 
   ngOnInit() {
 
-    // this.kakaoAuth.isLoggedIn();
+    this.kakaoAuth.isLoggedIn();
 
   }
 
